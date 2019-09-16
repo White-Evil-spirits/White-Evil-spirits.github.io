@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8" />
+		<title>下拉刷新例子</title>
+		<link href="js/minirefresh.min.css" rel="stylesheet" />
+		<style>
+			.list {
+				width: 80%;
+				margin-top: 10px;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: #f1f1f1;
+				font-size: .3rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mrefresh" class="minirefresh-wrap">
+			<div class="minirefresh-scroll">
+				<!-- 这里放你要被下拉的区域 -->
+				<div class="list">
+					<ul>
+						<li>网站www.itxst.com</li>
+						<li>网站www.github.com</li>
+						<li>网站www.msn.com</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/minirefresh.min.js"></script>
+		<script src="http://www.itxst.com/js/jquery.js"></script>
+		<script src="../vue%20test/autorem.js" type="text/javascript"></script>
+		<script>
+			var mRefresh = new MiniRefresh({
+				container: '#mrefresh', //这里是插件的容器ID
+				down: {
+					callback: function() {
+						// 下拉后的回调事件 ，你可以在这里执行你的后台请求数据函数，达到刷新数据的作用
+						getData();
+
+						mRefresh.endDownLoading();
+					},
+					onCalcel: function() {
+						//下拉到一半，放弃刷新执行的事件
+						calcelMsg();
+					}
+				},
+				up: {
+
+					callback: function() {
+						// 向上拉后的回调事件
+
+						mRefresh.endUpLoading(true);
+					}
+				}
+			});
+			var pos = 0;
+
+			function getData() {
+				$(".list ul li").remove();
+
+				for (var i = pos; i < pos + 10; i++) {
+					$(".list ul").append("<li>新数据" + i + "</li>");
+
+				}
+				pos = pos + 10;
+			}
+
+			function calcelMsg() {
+				$(".list ul li").remove();
+				$(".list ul").append("<li>你放弃了刷新</li>");
+			}
+		</script>
+	</body>
+</html>
