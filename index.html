@@ -38,9 +38,14 @@
 				down: {
 					callback: function() {
 						// 下拉后的回调事件 ，你可以在这里执行你的后台请求数据函数，达到刷新数据的作用
-						getData();
-
-						mRefresh.endDownLoading();
+						// mRefresh.endDownLoading();
+						setTimeout(() => {
+							mRefresh.endDownLoading(true);
+						}, 3000)
+						// 下拉后的回调事件 ，你可以在这里执行你的后台请求数据函数，达到刷新数据的作用
+						setTimeout(() => {
+							getData();
+						}, 3000)
 					},
 					onCalcel: function() {
 						//下拉到一半，放弃刷新执行的事件
